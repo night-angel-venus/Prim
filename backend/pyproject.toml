@@ -1,0 +1,22 @@
+[project]
+name = "prim"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.20.1",
+    "fastapi[standard]>=0.162.0",
+    "passlib[bcrypt]>=1.7.4",
+    "pymysql>=1.2.3",
+    "python-dotenv>=1.2.4",
+    "python-jose[cryptography]>=3.5.0",
+    "slowapi>=0.1.10",
+    "sqlalchemy>=2.1.6",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+]
