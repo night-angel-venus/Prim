@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DATABASE_URL: str
@@ -7,10 +7,9 @@ class Settings(BaseSettings):
     ALGORITHM:str = "HS256"
     TOKEN_EXPIRATION_MINUTES:int = 600
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
-        extra = "allow"
+    RATE_LIMIT:str = "50/minute"
+
+    model_config = SettingsConfigDict(env_file=".env", extra="allow")
 
 
 
