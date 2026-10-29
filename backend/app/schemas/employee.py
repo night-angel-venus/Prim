@@ -9,7 +9,7 @@ class EmployeeCreate(BaseModel):
     employee_email: EmailStr
     contact_no: str
     employee_password: str
-    status: StatusEnum
+    status: StatusEnum = StatusEnum.ACTIVE
 
 class EmployeeResponse(BaseModel):
     id: int

@@ -54,7 +54,7 @@ def get_employees(
 
 
 # ! /directory/employees
-@router.post("/employees", response_model=EmployeeResponse)
+@router.post("/employees", response_model=EmployeeResponse, status_code=status.HTTP_201_CREATED)
 def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):
     existing_employee = (
         db.query(Employee)
@@ -101,7 +101,7 @@ def update_employee(
     if not employee_to_update:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
-            detail="No Employees Found"
+            detail="Employee not found"
         )
 
 
