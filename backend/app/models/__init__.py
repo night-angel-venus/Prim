@@ -6,13 +6,5 @@ from app.models.purchases import Purchases
 from app.models.contacts import Contacts
 from app.models.phrasebank import Phrasebank
 from app.models.accounts import Accounts
+from app.models.employees import DepartmentEnum, StatusEnum
 
-__all__ = [
-    "User",
-    "Employee",
-    "Fedex",
-    "Tiktok",
-    "Purchases",
-    "Contacts",
-    "Phrasebank",
-]
