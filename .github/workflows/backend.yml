@@ -54,6 +54,8 @@ jobs:
 
       - name: Run Migrations
         run: uv run alembic upgrade head
+        env:
+          DATABASE_URL: mysql+pymysql://root:rootpassword@127.0.0.1:3306/prim
 
       - name: Run tests
         run: uv run pytest tests
