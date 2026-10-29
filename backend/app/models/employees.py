@@ -22,6 +22,7 @@ class Employee(Base):
     employee_name = Column(String(50), nullable=False)
     employee_department = Column(Enum(DepartmentEnum), default=DepartmentEnum.DEFAULT, nullable=False)
     employee_email = Column(String(50), unique=True, nullable=False)
+    contact_no = Column(String(50), nullable=False)
     employee_password = Column(String(255), nullable=False)
     status  = Column(Enum(StatusEnum), default=StatusEnum.ACTIVE, nullable=False)
 
