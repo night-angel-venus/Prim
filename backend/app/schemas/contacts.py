@@ -4,18 +4,18 @@ from typing import Optional
 
 class ContactCreate(BaseModel):
     contact_name:str
-    contact_email:str
+    contact_number:str
     purpose:str
 
 class ContactResponse(BaseModel):
     id:int
     contact_name:str
-    contact_email:str
+    contact_number:str
     purpose:str
 
     model_config = ConfigDict(from_attributes=True)
 
 class ContactUpdate(BaseModel):
     contact_name:Optional[str]
-    contact_email:Optional[str]
+    contact_number:Optional[str]
     purpose:Optional[str]
