@@ -5,7 +5,7 @@ from app.utils.rate_limit import limiter
 # ! API ROUTERS
 from app.api import (
     auth_router, employee_router, 
-    fedex_router
+    fedex_router, tiktok_router
     
     )
 
@@ -53,3 +53,6 @@ app.include_router(employee_router)
 
 # ! FedEx History API
 app.include_router(fedex_router)
+
+# ! TikTok Live History API
+app.include_router(tiktok_router)
