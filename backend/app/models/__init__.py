@@ -7,4 +7,5 @@ from app.models.contacts import Contacts
 from app.models.phrasebank import Phrasebank
 from app.models.accounts import Accounts
 from app.models.employees import DepartmentEnum, StatusEnum
+from app.models.purchases import PurchaseSourceEnum
 
