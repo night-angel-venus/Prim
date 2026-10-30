@@ -3,7 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.utils.rate_limit import limiter
 
 # ! API ROUTERS
-from app.api import auth_router, employee_router
+from app.api import (
+    auth_router, employee_router, 
+    fedex_router
+    
+    )
 
 from slowapi.errors import RateLimitExceeded
 from slowapi import _rate_limit_exceeded_handler
@@ -41,5 +45,11 @@ app.add_middleware(
 def root():
     return {"Welcome to PRIM"}
 
+# ! Auth API
 app.include_router(auth_router)
+
+# ! Employee Directory API
 app.include_router(employee_router)
+
+# ! FedEx History API
+app.include_router(fedex_router)
