@@ -120,4 +120,3 @@ def test_get_tiktok_history_filters():
     # 4. Filter for "Successful Live" days (applicants > 0)
     response_live = client.get("/tiktok/history?no_live_day=false")
     assert response_live.status_code == 200
-    data_live = response_live.json()
