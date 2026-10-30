@@ -5,7 +5,8 @@ from app.utils.rate_limit import limiter
 # ! API ROUTERS
 from app.api import (
     auth_router, employee_router, 
-    fedex_router, tiktok_router
+    fedex_router, tiktok_router,
+    phrasebank_router
     
     )
 
@@ -45,6 +46,8 @@ app.add_middleware(
 def root():
     return {"Welcome to PRIM"}
 
+# Routers
+
 # ! Auth API
 app.include_router(auth_router)
 
@@ -56,3 +59,6 @@ app.include_router(fedex_router)
 
 # ! TikTok Live History API
 app.include_router(tiktok_router)
+
+# ! Phrasebank API
+app.include_router(phrasebank_router)
