@@ -16,6 +16,6 @@ class ContactResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class ContactUpdate(BaseModel):
-    contact_name:Optional[str]
-    contact_number:Optional[str]
-    purpose:Optional[str]
+    contact_name:Optional[str] = None
+    contact_number:Optional[str] = None
+    purpose:Optional[str] = None
