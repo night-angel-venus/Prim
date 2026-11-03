@@ -7,7 +7,8 @@ from app.api import (
     auth_router, employee_router, 
     fedex_router, tiktok_router,
     phrasebank_router, purchases_router,
-    contacts_router, accounts_router
+    contacts_router, accounts_router,
+    reports_router
     
     )
 
@@ -72,3 +73,6 @@ app.include_router(contacts_router)
 
 # ! Accounts API
 app.include_router(accounts_router)
+
+# ! Reports API
+app.include_router(reports_router)

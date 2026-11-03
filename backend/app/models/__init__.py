@@ -9,4 +9,5 @@ from app.models.accounts import Accounts
 from app.models.employees import DepartmentEnum, StatusEnum
 from app.models.purchases import PurchaseSourceEnum
 from app.models.accounts import CategoryEnum
+from app.models.reports import Report
 

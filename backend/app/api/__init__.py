@@ -6,3 +6,4 @@ from app.api.phrasebank import router as phrasebank_router
 from app.api.purchases import router as purchases_router
 from app.api.contacts import router as contacts_router
 from app.api.accounts import router as accounts_router
+from app.api.reports import router as reports_router
