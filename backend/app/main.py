@@ -6,7 +6,8 @@ from app.utils.rate_limit import limiter
 from app.api import (
     auth_router, employee_router, 
     fedex_router, tiktok_router,
-    phrasebank_router, purchases_router
+    phrasebank_router, purchases_router,
+    contacts_router
     
     )
 
@@ -65,3 +66,6 @@ app.include_router(phrasebank_router)
 
 # ! Purchases API
 app.include_router(purchases_router)
+
+# ! Contacts API
+app.include_router(contacts_router)

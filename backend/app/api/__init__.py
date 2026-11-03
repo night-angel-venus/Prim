@@ -4,4 +4,5 @@ from app.api.fedex import router as fedex_router
 from app.api.tiktok import router as tiktok_router
 from app.api.phrasebank import router as phrasebank_router
 from app.api.purchases import router as purchases_router
+from app.api.contacts import router as contacts_router
 
