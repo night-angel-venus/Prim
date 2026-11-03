@@ -8,7 +8,7 @@ from app.api import (
     fedex_router, tiktok_router,
     phrasebank_router, purchases_router,
     contacts_router, accounts_router,
-    reports_router
+    reports_router, deadlines_router
     
     )
 
@@ -76,3 +76,6 @@ app.include_router(accounts_router)
 
 # ! Reports API
 app.include_router(reports_router)
+
+# ! Deadlines API
+app.include_router(deadlines_router)

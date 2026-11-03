@@ -7,3 +7,4 @@ from app.schemas.phrasebank import PhraseCreate, PhraseResponse, PhraseUpdate
 from app.schemas.contacts import ContactCreate, ContactResponse, ContactUpdate
 from app.schemas.accounts import AccountsCreate, AccountsResponse, AccountsUpdate
 from app.schemas.reports import ReportCreate, ReportResponse, ReportUpdate
+from app.schemas.deadlines import DeadlineCreate, DeadlineResponse, DeadlineComplete, DeadlineUpdate
