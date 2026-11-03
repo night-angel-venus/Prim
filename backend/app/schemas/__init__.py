@@ -5,3 +5,4 @@ from app.schemas.tiktok import TiktokCreate, TiktokResponse, TiktokUpdate
 from app.schemas.purchases import PurchaseCreate, PurchaseResponse, PurchaseUpdate
 from app.schemas.phrasebank import PhraseCreate, PhraseResponse, PhraseUpdate
 from app.schemas.contacts import ContactCreate, ContactResponse, ContactUpdate
+from app.schemas.accounts import AccountsCreate, AccountsResponse, AccountsUpdate

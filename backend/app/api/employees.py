@@ -30,7 +30,7 @@ etc.
 def get_employees(
 
     # Query Parameter
-    department: Optional[DepartmentEnum] = Query(None, description="Filters by de"),
+    department: Optional[str] = Query(None, description="Filters by de"),
     db: Session = Depends(get_db)
     ):
 
