@@ -6,3 +6,4 @@ from app.schemas.purchases import PurchaseCreate, PurchaseResponse, PurchaseUpda
 from app.schemas.phrasebank import PhraseCreate, PhraseResponse, PhraseUpdate
 from app.schemas.contacts import ContactCreate, ContactResponse, ContactUpdate
 from app.schemas.accounts import AccountsCreate, AccountsResponse, AccountsUpdate
+from app.schemas.reports import ReportCreate, ReportResponse, ReportUpdate
