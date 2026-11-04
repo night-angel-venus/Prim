@@ -41,7 +41,9 @@ def test_dashboard_employees():
     # Create 2 IT employees and 1 HR employee
     client.post("/directory/employees", json={"employee_name": "Test 1", "employee_department": "IT", "employee_email": "t1@test.com", "contact_no": "1", "employee_password": "p"})
     client.post("/directory/employees", json={"employee_name": "Test 2", "employee_department": "IT", "employee_email": "t2@test.com", "contact_no": "2", "employee_password": "p"})
-    client.post("/directory/employees", json={"employee_name": "Test 3", "employee_department": "ADMIN", "employee_email": "t3@test.com", "contact_no": "3", "employee_password": "p"})
+    
+    # Use the exact Value from the Enum, not the Name!
+    client.post("/directory/employees", json={"employee_name": "Test 3", "employee_department": "Admin/HR", "employee_email": "t3@test.com", "contact_no": "3", "employee_password": "p"})
 
     response = client.get("/dashboard/employees")
     data = response.json()
@@ -49,11 +51,12 @@ def test_dashboard_employees():
     assert response.status_code == 200
     assert data["count_active"] >= 1
     
-    # Safely check the departments without guessing the exact key
-    print("DEPARTMENTS:", data["count_per_dept"])
+    # Use .get() with a default of 0 to prevent crashes if the key doesn't exist
+    it_count = data["count_per_dept"].get("IT", 0)
+    admin_count = data["count_per_dept"].get("Admin/HR", 0) or data["count_per_dept"].get("ADMIN", 0)
     
-    # Check if "ADMIN" OR "Admin/HR" is in the dict
-    assert "ADMIN" in data["count_per_dept"] or "Admin/HR" in data["count_per_dept"]
+    assert it_count >= 2
+    assert admin_count >= 1
 
 
 def test_dashboard_tiktok():
