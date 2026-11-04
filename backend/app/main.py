@@ -1,7 +1,85 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.utils.rate_limit import limiter
 
-app = FastAPI()
+# ! API ROUTERS
+from app.api import (
+    auth_router, employee_router, 
+    fedex_router, tiktok_router,
+    phrasebank_router, purchases_router,
+    contacts_router, accounts_router,
+    reports_router, deadlines_router,
+    dashboard_router
+    
+    )
+
+from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
+
+from starlette.middleware.base import BaseHTTPMiddleware
+import os
+
+
+app = FastAPI(title="Prim", version="0.1.0")
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+class SecurityHeader(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+        return response
+
+app.add_middleware(SecurityHeader)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 def root():
     return {"Welcome to PRIM"}
+
+# Routers
+
+# ! Auth API
+app.include_router(auth_router)
+
+# ! Employee Directory API
+app.include_router(employee_router)
+
+# ! FedEx History API
+app.include_router(fedex_router)
+
+# ! TikTok Live History API
+app.include_router(tiktok_router)
+
+# ! Phrasebank API
+app.include_router(phrasebank_router)
+
+# ! Purchases API
+app.include_router(purchases_router)
+
+# ! Contacts API
+app.include_router(contacts_router)
+
+# ! Accounts API
+app.include_router(accounts_router)
+
+# ! Reports API
+app.include_router(reports_router)
+
+# ! Deadlines API
+app.include_router(deadlines_router)
+
+# ! Dashboard API
+app.include_router(dashboard_router)

@@ -5,6 +5,29 @@ build/
 dist/
 wheels/
 *.egg-info
+*$py.class
+*.so
+.egg
+
+# Testing / coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage/
+.pytest_cache/
 
 # Virtual environments
 .venv
+
+# Type checking
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+.env
