@@ -24,31 +24,21 @@ etc.
 
 
 # ! /directory/employees
-@router.get(
-    "/employees", response_model=List[EmployeeResponse], status_code=status.HTTP_200_OK
-)
+@router.get("/employees", response_model=List[EmployeeResponse])
 def get_employees(
-
-    # Query Parameter
-    department: Optional[str] = Query(None, description="Filters by de"),
+    department: Optional[DepartmentEnum] = Query(None, description="Filters by dept"),
+    status: Optional[StatusEnum] = Query(StatusEnum.ACTIVE, description="Filter by status"), # <--- ADD THIS LINE
     db: Session = Depends(get_db)
-    ):
-
+):
     query = db.query(Employee)
 
     if department:
-        query = query.filter(
-            Employee.employee_department == department
-        )
+        query = query.filter(Employee.employee_department == department)
+    
+    if status: # <--- Add this check
+        query = query.filter(Employee.status == status)
 
-    employees = query.all()
-
-    if not employees:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="No Employees Found"
-        )
-
-    return employees
+    return query.all()
 
     # Todo: Implement filtering
 
