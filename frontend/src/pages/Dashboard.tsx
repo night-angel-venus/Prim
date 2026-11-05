@@ -1,29 +1,29 @@
 import { useNavigate, Link } from "react-router-dom"
+import EmployeeStatsCard from "../components/dashboard/EmployeeStatsCard";
+import TiktokStatsCard from "../components/dashboard/TiktokStatsCard";
+import FedexStatsCard from "../components/dashboard/FedexStatsCard";
+import GeneralStatsCard from "../components/dashboard/GeneralStatsCard";
 
 function Dashboard() {
-    const navigate = useNavigate();
-    const userString = localStorage.getItem('user')
-    const user = userString ? JSON.parse(userString) : null;
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-
-        navigate('/')
-    }
 
 
   return (
     <div>
+        
+
         <h1>Dashboard</h1>
+        
 
-        <h1>hello, {user?.name}</h1>
 
-        <div>
-            <Link to="/employees">Employees</Link>
-        </div>
+        {/* COMPONENTS */}
+        <EmployeeStatsCard/>
 
-        <button onClick={handleLogout}>Log out</button>
+        <TiktokStatsCard/>
+
+        <FedexStatsCard/>
+
+        <GeneralStatsCard/>
+
     </div>
   )
 }
