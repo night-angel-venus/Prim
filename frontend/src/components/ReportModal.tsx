@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 import type { Report } from '../types';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { FieldGroup, FieldSet, Field, FieldLabel } from './ui/field';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
 
 interface ReportModalProps {
     isOpen: boolean;
@@ -40,29 +45,79 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
     };
 
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', width: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
-                <h3>{initialData ? 'Edit Report' : 'Add Report'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    
-                    <label>Problem:</label>
-                    <input type="text" placeholder="e.g. Printer Offline" value={formProblem} onChange={(e) => setFormProblem(e.target.value)} required />
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+            <Card className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <CardHeader className="text-xl font-bold">
+                    {initialData ? 'Edit Report' : 'Add New Report'}
+                </CardHeader>
 
-                    <label>Description:</label>
-                    <textarea rows={3} placeholder="Describe the issue..." value={formDescription} onChange={(e) => setFormDescription(e.target.value)} required />
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <FieldSet>
+                            <FieldGroup className='flex flex-col gap-4'>
+                                
+                                <Field>
+                                    <FieldLabel htmlFor="problem">Problem</FieldLabel>
+                                    <Input 
+                                        id="problem" 
+                                        autoComplete="off" 
+                                        placeholder=""
+                                        value={formProblem} 
+                                        onChange={(e) => setFormProblem(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
 
-                    <label>Solution:</label>
-                    <textarea rows={3} placeholder="How was it fixed?" value={formSolution} onChange={(e) => setFormSolution(e.target.value)} required />
+                                <Field>
+                                    <FieldLabel htmlFor="description">Description</FieldLabel>
+                                    <Textarea 
+                                        id="description" 
+                                        placeholder="" 
+                                        className="min-h-25 resize-y"
+                                        value={formDescription} 
+                                        onChange={(e) => setFormDescription(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
 
-                    <label>Reported By:</label>
-                    <input type="text" placeholder="e.g. Sir Andre" value={formReportedBy} onChange={(e) => setFormReportedBy(e.target.value)} required />
+                                <Field>
+                                    <FieldLabel htmlFor="solution">Solution</FieldLabel>
+                                    <Textarea 
+                                        id="solution" 
+                                        placeholder="" 
+                                        className="min-h-25 resize-y"
+                                        value={formSolution} 
+                                        onChange={(e) => setFormSolution(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
+                                <Field>
+                                    <FieldLabel htmlFor="reportedBy">Reported By</FieldLabel>
+                                    <Input 
+                                        id="reportedBy" 
+                                        autoComplete="off" 
+                                        placeholder=""
+                                        value={formReportedBy} 
+                                        onChange={(e) => setFormReportedBy(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                            </FieldGroup>
+                        </FieldSet>
+
+                        <div className="flex justify-end gap-2 mt-2">
+                            <Button variant="outline" type="button" onClick={onClose} className="cursor-pointer">
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="bg-[#9a0002] text-white hover:bg-[#9a0002]/80 cursor-pointer">
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }

@@ -1,10 +1,36 @@
 import { useState, useEffect } from 'react';
+import {
+    Field,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSet,
+} from "../components/ui/field";
+import { Input } from './ui/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../components/ui/select"; // <--- Using Select instead of Combobox
+
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "../components/ui/card"
+import { Button } from './ui/button';
 
 interface EmployeeModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: any) => void;
-    initialData: any | null; // If null, it's Add mode. If object, it's Edit mode.
+    initialData: any | null;
 }
 
 export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }: EmployeeModalProps) {
@@ -14,7 +40,6 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
     const [formContact, setFormContact] = useState('');
     const [formPassword, setFormPassword] = useState('');
 
-    // When the modal opens, fill the form (or clear it if it's a new employee)
     useEffect(() => {
         if (isOpen) {
             if (initialData) {
@@ -40,33 +65,85 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
             contact_no: formContact,
         };
         if (formPassword) payload.employee_password = formPassword;
-        
+
         onSubmit(payload);
     };
 
+    const departments = ["IT", "Operations", "Admin/HR", "Recruitment", "Accounting"];
+
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', width: '400px' }}>
-                <h3>{initialData ? 'Edit Employee' : 'Add New Employee'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <input placeholder="Name" value={formName} onChange={(e) => setFormName(e.target.value)} required />
-                    <select value={formDepartment} onChange={(e) => setFormDepartment(e.target.value)}>
-                        <option value="IT">IT</option>
-                        <option value="Admin/HR">Admin/HR</option>
-                        <option value="Accounting">Accounting</option>
-                        <option value="Operations">Operations</option>
-                        <option value="Recruitment">Recruitment</option>
-                    </select>
-                    <input type="email" placeholder="Email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required />
-                    <input placeholder="Contact No" value={formContact} onChange={(e) => setFormContact(e.target.value)} required />
-                    <input type="password" placeholder={initialData ? "New Password (leave blank to keep)" : "Password"} value={formPassword} onChange={(e) => setFormPassword(e.target.value)} required={!initialData} />
-                    
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <Card className="bg-white p-6 rounded-lg w-100 max-h-[90vh] overflow-y-auto">
+                <CardHeader className="text-xl font-bold mb-4">{initialData ? 'Edit Employee' : 'Add New Employee'}</CardHeader>
+
+                <CardContent>
+
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <FieldSet>
+                            <FieldGroup className='flex flex-col'>
+
+                                <Field>
+                                    <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                                    <Input id="name" autoComplete="off" placeholder="Employee Name"
+                                        value={formName} onChange={(e) => setFormName(e.target.value)} required
+                                    />
+                                </Field>
+
+
+
+
+
+                                <Field>
+                                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                                    <Input id="email" autoComplete="off" type="email" placeholder="Email"
+                                        value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required
+                                    />
+                                </Field>
+
+                                <div className='grid grid-cols-2 gap-2'>
+
+                                    <Field>
+                                        <FieldLabel htmlFor="contact">Contact No.</FieldLabel>
+                                        <Input id="contact" autoComplete="off" placeholder="Contact Number"
+                                            value={formContact} onChange={(e) => setFormContact(e.target.value)} required
+                                        />
+                                    </Field>
+
+                                    <Field>
+                                        <FieldLabel>Department</FieldLabel>
+                                        <Select value={formDepartment} onValueChange={(value) => setFormDepartment(value || '')}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select Department" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {departments.map((dept) => (
+                                                    <SelectItem key={dept} value={dept}>
+                                                        {dept}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </Field>
+                                </div>
+
+                                <Field>
+                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <Input id="password" autoComplete="new-password" type="password"
+                                        placeholder={initialData ? "New Password (leave blank to keep)" : "Password"}
+                                        value={formPassword} onChange={(e) => setFormPassword(e.target.value)} required={!initialData}
+                                    />
+                                </Field>
+
+                            </FieldGroup>
+                        </FieldSet>
+
+                        <div className="flex justify-end gap-2 mt-4">
+                            <Button variant="outline" type="button" onClick={onClose} className="h-7 px-4 py-2 border rounded hover:bg-gray-100 cursor-pointer">Cancel</Button>
+                            <Button variant="default" type="submit" className="h-7 px-4 py-2 bg-[#9a0002] text-white rounded hover:bg-[#9a0002]/60 cursor-pointer">Save</Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }

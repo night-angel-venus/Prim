@@ -60,6 +60,8 @@ export default function Layout() {
                                             isActive={location.pathname === item.url}
                                         >
                                                 <item.icon/>
+
+                                                
                                                 <span>{item.title}</span>
                                         </SidebarMenuButton>
                                         </Link>
@@ -71,18 +73,22 @@ export default function Layout() {
                 </SidebarContent>
 
                 <SidebarFooter>
-                    <button onClick={handleLogout} className="w-full p-2 bg-red-600 text-white rounded">
+                    <button onClick={handleLogout} className="w-full px-2 py-1 cursor-pointer text-[#161111] hover:bg-[#e5b85c]/70 bg-[#E5B85C] rounded-xs">
                         Log out
                     </button>
                 </SidebarFooter>
             </Sidebar>
 
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                <header className="bg-[#9a0002] text-[#efe6dd] flex h-10 shrink-0 items-center gap-2 border-b px-4">
                     <SidebarTrigger />
-                    <h2 className="font-semibold">Hello, {user?.name || 'Admin'}!</h2>
+
+                    <div className='flex flex-row justify-between w-full pe-11'>
+                        <h2 className='font-bold'>PRIM Admin Panel</h2>
+                        <h2 className="font-semibold">Hello, {user?.name || 'Admin'}!</h2>
+                    </div>
                 </header>
-                <main className="flex flex-1 flex-col gap-4 p-4">
+                <main className="bg-[#efe6dd] flex flex-1 flex-col gap-4 py-4 px-15">
                     <Outlet />
                 </main>
             </SidebarInset>

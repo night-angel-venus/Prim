@@ -2,6 +2,17 @@ import { useEffect, useState } from "react";
 import type { Report } from "../types";
 import { getReports, createReport, updateReport } from "../services/reportService";
 import ReportModal from "../components/ReportModal";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "../components/ui/table";
+import { Button } from "../components/ui/button";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/input-group";
+import { Plus, SearchIcon } from "lucide-react";
 
 function ReportsPage() {
     const [reports, setReports] = useState<Report[]>([]);
@@ -82,55 +93,96 @@ function ReportsPage() {
 
     return (
         <div>
-            <h1>Issue Reports</h1>
+            <h1 className="font-bold mb-5 text-2xl">Issue Reports</h1>
             
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-                <div>
-                    <label>Search Problem: </label>
-                    <input type="text" value={problemFilter} onChange={(e) => setProblemFilter(e.target.value)} />
-                </div>
-                <div>
-                    <label>Search Solution: </label>
-                    <input type="text" value={solutionFilter} onChange={(e) => setSolutionFilter(e.target.value)} />
-                </div>
-                <div>
-                    <label>Search Reported By: </label>
-                    <input type="text" value={reportedByFilter} onChange={(e) => setReportedByFilter(e.target.value)} />
-                </div>
+            <div className="flex flex-row justify-between">
+                <section className="flex flex-row gap-1">
+                    <div>
+                        <InputGroup>
+                            <InputGroupInput 
+                                placeholder="Search problem..." 
+                                value={problemFilter}
+                                onChange={(e) => setProblemFilter(e.target.value)}
+                            />
+                            <InputGroupAddon>
+                                <SearchIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                    <div>
+                        <InputGroup>
+                            <InputGroupInput 
+                                placeholder="Search solution..." 
+                                value={solutionFilter}
+                                onChange={(e) => setSolutionFilter(e.target.value)}
+                            />
+                            <InputGroupAddon>
+                                <SearchIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                    <div>
+                        <InputGroup>
+                            <InputGroupInput 
+                                placeholder="Search reported by..." 
+                                value={reportedByFilter}
+                                onChange={(e) => setReportedByFilter(e.target.value)}
+                            />
+                            <InputGroupAddon>
+                                <SearchIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </section>
+
+                <section>
+                    <Button onClick={handleOpenAdd} className='w-20 bg-[#e5b85c] text-[#161111] cursor-pointer hover:bg-[#e5b85c]/60'>
+                        <span className="flex flex-row items-center justify-center">
+                            <Plus />
+                            New
+                        </span>
+                    </Button>
+                </section>
             </div>
 
-            <button onClick={handleOpenAdd}>New Report</button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Date</th>
-                        <th>Problem</th>
-                        <th>Description</th>
-                        <th>Solution</th>
-                        <th>Reported By</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reports.map((r) => (
-                        <tr key={r.id}>
-                            <td>{r.id}</td>
-                            <td>{r.report_date}</td>
-                            <td>{r.problem}</td>
-                            <td>{r.description}</td>
-                            <td>{r.solution}</td>
-                            <td>{r.reported_by}</td>
-                            <td>
-                                <button onClick={() => handleOpenEdit(r)}>Edit</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <main className="mt-5 p-1 rounded-sm
+                border border-white/60 bg-[#efe6dd]/30 backdrop-blur-md 
+                shadow-[inset_0_4px_12px_rgba(0,0,0,0.15),inset_0_2px_4px_rgba(0,0,0,0.1)]
+                h-[calc(100vh-250px)] overflow-y-auto">
+                
+                <Table className="w-full text-left overflow-visible">
+                    <TableHeader>
+                        <TableRow className="sticky top-0  hover:bg-[#efe6dd] z-10 ">
+                            <TableHead className="font-bold text-[#161111]">Date</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Problem</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Description</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Solution</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Reported By</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {reports.map((r) => (
+                            <TableRow key={r.id}>
+                                <TableCell className="max-w-[200px] truncate">{r.report_date}</TableCell>
+                                <TableCell className="max-w-[200px] truncate font-medium">{r.problem}</TableCell>
+                                <TableCell className="max-w-[200px] truncate">{r.description}</TableCell>
+                                <TableCell className="max-w-[200px] truncate">{r.solution}</TableCell>
+                                <TableCell>{r.reported_by}</TableCell>
+                                <TableCell>
+                                    <div className="flex gap-2">
+                                        <Button className="h-6 text-xs rounded-xs cursor-pointer" onClick={() => handleOpenEdit(r)}>
+                                            Edit
+                                        </Button>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </main>
 
             <ReportModal
                 isOpen={isModalOpen}

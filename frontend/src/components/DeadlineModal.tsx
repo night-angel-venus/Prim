@@ -1,5 +1,17 @@
 import { useState, useEffect } from 'react';
 import type { Deadline } from '../types';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { FieldGroup, FieldSet, Field, FieldLabel } from './ui/field';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+
+import { format } from "date-fns";
+import { Calendar } from "../components/ui/calendar";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "../components/ui/popover";
 
 interface DeadlineModalProps {
     isOpen: boolean;
@@ -20,7 +32,9 @@ export default function DeadlineModal({ isOpen, onClose, onSubmit, initialData }
                 setFormTitle(initialData.title);
                 setFormBeneficiary(initialData.beneficiary);
             } else {
-                setFormDate(''); setFormTitle(''); setFormBeneficiary('');
+                setFormDate(''); 
+                setFormTitle(''); 
+                setFormBeneficiary('');
             }
         }
     }, [isOpen, initialData]);
@@ -37,26 +51,81 @@ export default function DeadlineModal({ isOpen, onClose, onSubmit, initialData }
     };
 
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', width: '400px' }}>
-                <h3>{initialData ? 'Edit Deadline' : 'Add Deadline'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    
-                    <label>Due Date:</label>
-                    <input type="date" value={formDate} onChange={(e) => setFormDate(e.target.value)} required />
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <CardHeader className="text-xl font-bold">
+                    {initialData ? 'Edit Deadline' : 'Add New Deadline'}
+                </CardHeader>
 
-                    <label>Title:</label>
-                    <input type="text" placeholder="e.g. Linux Hosting Renewal" value={formTitle} onChange={(e) => setFormTitle(e.target.value)} required />
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <FieldSet>
+                            <FieldGroup className='flex flex-col gap-4'>
 
-                    <label>Beneficiary:</label>
-                    <input type="text" placeholder="e.g. IT Department" value={formBeneficiary} onChange={(e) => setFormBeneficiary(e.target.value)} required />
+                                {/* DATE PICKER */}
+                                <Field className="flex flex-col">
+                                    <FieldLabel>Due Date</FieldLabel>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant="outline" className="justify-start font-normal text-left w-full">
+                                                {formDate ? format(new Date(formDate), "PPP") : <span>Pick a date</span>}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={formDate ? new Date(formDate) : undefined}
+                                                onSelect={(selectedDate) => {
+                                                    if (selectedDate) {
+                                                        setFormDate(format(selectedDate, "yyyy-MM-dd"));
+                                                    }
+                                                }}
+                                                defaultMonth={formDate ? new Date(formDate) : new Date()}
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </Field>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
+                                {/* TITLE */}
+                                <Field>
+                                    <FieldLabel htmlFor="title">Title</FieldLabel>
+                                    <Input 
+                                        id="title" 
+                                        autoComplete="off" 
+                                        placeholder=""
+                                        value={formTitle} 
+                                        onChange={(e) => setFormTitle(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                                {/* BENEFICIARY */}
+                                <Field>
+                                    <FieldLabel htmlFor="beneficiary">Beneficiary</FieldLabel>
+                                    <Input 
+                                        id="beneficiary" 
+                                        autoComplete="off" 
+                                        placeholder=""
+                                        value={formBeneficiary} 
+                                        onChange={(e) => setFormBeneficiary(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                            </FieldGroup>
+                        </FieldSet>
+
+                        <div className="flex justify-end gap-2 mt-2">
+                            <Button variant="outline" type="button" onClick={onClose} className="cursor-pointer">
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="bg-[#9a0002] text-white hover:bg-[#9a0002]/80 cursor-pointer">
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }

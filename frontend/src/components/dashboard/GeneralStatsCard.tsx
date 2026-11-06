@@ -12,11 +12,24 @@ export default function GeneralStatsCard() {
     if (!stats) return <p>Loading General Stats...</p>;
 
     return (
-        <div style={{ border: '1px solid black', padding: '10px', margin: '10px' }}>
-            <h3>General Stats</h3>
-            <p>Total Reports: <strong>{stats.count_reports}</strong></p>
-            <p>Total Purchases: <strong>{stats.count_purchases}</strong></p>
-            <p>Pending Deadlines: <strong style={{ color: 'red' }}>{stats.pending}</strong></p>
+        <div className='grid grid-cols-3 gap-3'>
+
+            <div className='h-35 p-4 bg-[#E5B85C] text-[#161111]'>
+                <h1 className='font-bold text-lg'>Issues Resolved</h1>
+
+                <p className='text-[70px] font-bold'>{stats.count_reports}</p>
+            </div>
+
+            <div className='h-35 p-4 bg-[#00439A] text-[#efe6dd]'>
+
+                <h1 className='font-bold text-lg'>Purchases</h1>
+                <p className='text-[70px] font-bold'>{stats.count_purchases}</p>
+            </div>
+
+            <div className='h-35 p-4 bg-[#9A0002] text-[#efe6dd]'>
+                <h1 className='font-bold text-lg'>Deadlines</h1>
+                <p className='text-[70px] font-bold'>{stats.pending}</p>
+            </div>
         </div>
     );
 }

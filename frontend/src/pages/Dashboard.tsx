@@ -1,4 +1,3 @@
-import { useNavigate, Link } from "react-router-dom"
 import EmployeeStatsCard from "../components/dashboard/EmployeeStatsCard";
 import TiktokStatsCard from "../components/dashboard/TiktokStatsCard";
 import FedexStatsCard from "../components/dashboard/FedexStatsCard";
@@ -8,21 +7,30 @@ function Dashboard() {
 
 
   return (
-    <div>
-        
-
-        <h1>Dashboard</h1>
-        
+    <div className="grid gap-2">
 
 
-        {/* COMPONENTS */}
-        <EmployeeStatsCard/>
+      <h1 className="text-xl font-bold">Dashboard</h1>
 
-        <TiktokStatsCard/>
 
-        <FedexStatsCard/>
 
-        <GeneralStatsCard/>
+      {/* COMPONENTS */}
+
+      <div>
+        <EmployeeStatsCard />
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        <div className="grid gap-2 col-span-2 h-full">
+
+          <TiktokStatsCard /> 
+          <GeneralStatsCard />
+        </div>
+
+        <div className="h-full">
+          <FedexStatsCard />
+        </div>
+      </div>
 
     </div>
   )

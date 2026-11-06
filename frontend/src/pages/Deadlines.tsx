@@ -2,6 +2,18 @@ import { useEffect, useState } from "react";
 import type { Deadline } from "../types";
 import { getDeadlines, createDeadline, updateDeadline, toggleDeadlineComplete } from "../services/deadlineService";
 import DeadlineModal from "../components/DeadlineModal";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "../components/ui/table";
+import { Button } from "../components/ui/button";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/input-group";
+import { Plus, SearchIcon, Filter } from "lucide-react";
 
 function DeadlinesPage() {
     const [deadlines, setDeadlines] = useState<Deadline[]>([]);
@@ -9,7 +21,7 @@ function DeadlinesPage() {
     const [error, setError] = useState('');
     
     // Filters
-    const [statusFilter, setStatusFilter] = useState<string>(''); // '', 'true', or 'false'
+    const [statusFilter, setStatusFilter] = useState<string>(''); 
     const [keywordFilter, setKeywordFilter] = useState('');
     const [beneficiaryFilter, setBeneficiaryFilter] = useState('');
 
@@ -80,11 +92,10 @@ function DeadlinesPage() {
         }
     };
 
-    // Checkbox Handler
     const handleToggleComplete = async (id: number, currentStatus: boolean) => {
         try {
             await toggleDeadlineComplete(id, !currentStatus);
-            loadData(); // Refresh to update the UI
+            loadData(); 
         } catch (err) {
             alert("Failed to update status.");
         }
@@ -94,66 +105,110 @@ function DeadlinesPage() {
 
     return (
         <div>
-            <h1>Deadlines & Tasks</h1>
+            <h1 className="font-bold mb-5 text-2xl">Deadlines</h1>
             
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-                <div>
-                    <label>Filter Status: </label>
-                    <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                        <option value="">All Tasks</option>
-                        <option value="false">Pending</option>
-                        <option value="true">Completed</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Search Title: </label>
-                    <input type="text" value={keywordFilter} onChange={(e) => setKeywordFilter(e.target.value)} />
-                </div>
-                <div>
-                    <label>Search Beneficiary: </label>
-                    <input type="text" value={beneficiaryFilter} onChange={(e) => setBeneficiaryFilter(e.target.value)} />
-                </div>
+            <div className="flex flex-row justify-between">
+                <section className="flex flex-row gap-1">
+                    
+                    <div>
+                        <Tabs value={statusFilter} onValueChange={setStatusFilter}>
+                            <TabsList className='bg-[#e5b85c] text-[#161111]'>
+                                <span className="flex flex-row gap-1 text-xs font-bold text-center mx-2 items-center">
+                                    Filters
+                                    <Filter className="size-3"/>  
+                                </span>
+                                <TabsTrigger value="" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">All</TabsTrigger>
+                                <TabsTrigger value="false" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Pending</TabsTrigger>
+                                <TabsTrigger value="true" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Completed</TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                    </div>
+
+                    <div>
+                        <InputGroup>
+                            <InputGroupInput 
+                                placeholder="Search title..." 
+                                value={keywordFilter}
+                                onChange={(e) => setKeywordFilter(e.target.value)}
+                            />
+                            <InputGroupAddon>
+                                <SearchIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                    
+                    <div>
+                        <InputGroup>
+                            <InputGroupInput 
+                                placeholder="Search beneficiary..." 
+                                value={beneficiaryFilter}
+                                onChange={(e) => setBeneficiaryFilter(e.target.value)}
+                            />
+                            <InputGroupAddon>
+                                <SearchIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+
+                </section>
+
+                <section>
+                    <Button onClick={handleOpenAdd} className='w-20 bg-[#e5b85c] text-[#161111] cursor-pointer hover:bg-[#e5b85c]/60'>
+                        <span className="flex flex-row items-center justify-center">
+                            <Plus />
+                            New
+                        </span>
+                    </Button>
+                </section>
             </div>
 
-            <button onClick={handleOpenAdd}>New Deadline</button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Done</th>
-                        <th>Due Date</th>
-                        <th>Title</th>
-                        <th>Beneficiary</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {deadlines.map((d) => (
-                        <tr key={d.id}>
-                            <td>
-                                <input 
-                                    type="checkbox" 
-                                    checked={d.completed} 
-                                    onChange={() => handleToggleComplete(d.id, d.completed)} 
-                                />
-                            </td>
-                            {/* Strikethrough if completed */}
-                            <td style={{ textDecoration: d.completed ? 'line-through' : 'none' }}>
-                                {d.due_date}
-                            </td>
-                            <td style={{ textDecoration: d.completed ? 'line-through' : 'none' }}>
-                                {d.title}
-                            </td>
-                            <td>{d.beneficiary}</td>
-                            <td>
-                                <button onClick={() => handleOpenEdit(d)}>Edit</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <main className="mt-5 p-1 rounded-sm
+                border border-white/60 bg-[#efe6dd]/30 backdrop-blur-md 
+                shadow-[inset_0_4px_12px_rgba(0,0,0,0.15),inset_0_2px_4px_rgba(0,0,0,0.1)]
+                h-[calc(100vh-250px)] overflow-y-auto">
+                
+                <Table className="w-full text-left overflow-visible">
+                    <TableHeader>
+                        <TableRow className="sticky top-0 bg-[#efe6dd] hover:bg-[#efe6dd] z-10">
+                            <TableHead className="font-bold text-[#161111] w-12.5">Done</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Due Date</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Title</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Beneficiary</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {deadlines.map((d) => (
+                            <TableRow key={d.id}>
+                                <TableCell>
+                                    <input 
+                                        type="checkbox" 
+                                        className="w-4 h-4 cursor-pointer"
+                                        checked={d.completed} 
+                                        onChange={() => handleToggleComplete(d.id, d.completed)} 
+                                    />
+                                </TableCell>
+                                <TableCell className={`max-w-50 truncate ${d.completed ? 'line-through text-gray-500' : ''}`}>
+                                    {d.due_date}
+                                </TableCell>
+                                <TableCell className={`max-w-50 truncate font-medium ${d.completed ? 'line-through text-gray-500' : ''}`}>
+                                    {d.title}
+                                </TableCell>
+                                <TableCell>{d.beneficiary}</TableCell>
+                                <TableCell>
+                                    <div className="flex gap-2">
+                                        <Button className="h-6 text-xs rounded-xs cursor-pointer" onClick={() => handleOpenEdit(d)}>
+                                            Edit
+                                        </Button>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </main>
 
             <DeadlineModal
                 isOpen={isModalOpen}
