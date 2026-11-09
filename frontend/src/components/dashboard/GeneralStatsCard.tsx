@@ -9,10 +9,13 @@ export default function GeneralStatsCard() {
         getReportsStats().then(setStats).catch(console.error);
     }, []);
 
+
+    
+
     if (!stats) return <p>Loading General Stats...</p>;
 
     return (
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-3 gap-3 h-full min-h-[120px]'>
 
             <div className='h-35 p-4 bg-[#E5B85C] text-[#161111]'>
                 <h1 className='font-bold text-lg'>Issues Resolved</h1>

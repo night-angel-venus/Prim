@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import type { Contact } from '../types';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { FieldGroup, FieldSet, Field, FieldLabel } from './ui/field';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
 
 interface ContactModalProps {
     isOpen: boolean;
@@ -20,7 +24,9 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
                 setFormNumber(initialData.contact_number);
                 setFormPurpose(initialData.purpose);
             } else {
-                setFormName(''); setFormNumber(''); setFormPurpose('');
+                setFormName(''); 
+                setFormNumber(''); 
+                setFormPurpose('');
             }
         }
     }, [isOpen, initialData]);
@@ -37,26 +43,71 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
     };
 
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', width: '400px' }}>
-                <h3>{initialData ? 'Edit Contact' : 'Add Contact'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    
-                    <label>Contact Name:</label>
-                    <input type="text" placeholder="e.g. Mr. Contact" value={formName} onChange={(e) => setFormName(e.target.value)} required />
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <CardHeader className="text-xl font-bold">
+                    {initialData ? 'Edit Contact' : 'Add New Contact'}
+                </CardHeader>
 
-                    <label>Contact Number:</label>
-                    <input type="text" placeholder="e.g. 09123456789" value={formNumber} onChange={(e) => setFormNumber(e.target.value)} required />
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <FieldSet>
+                            <FieldGroup className='flex flex-col gap-4'>
 
-                    <label>Purpose:</label>
-                    <input type="text" placeholder="e.g. Epson Printer" value={formPurpose} onChange={(e) => setFormPurpose(e.target.value)} required />
+                                {/* NAME */}
+                                <Field>
+                                    <FieldLabel htmlFor="name">Contact Name</FieldLabel>
+                                    <Input 
+                                        id="name" 
+                                        autoComplete="off" 
+                                        placeholder="e.g. Mr. Contact"
+                                        value={formName} 
+                                        onChange={(e) => setFormName(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
+                                {/* NUMBER */}
+                                <Field>
+                                    <FieldLabel htmlFor="number">Contact Number</FieldLabel>
+                                    <Input 
+                                        id="number" 
+                                        autoComplete="off" 
+                                        type="tel"
+                                        placeholder="e.g. 09123456789"
+                                        value={formNumber} 
+                                        onChange={(e) => setFormNumber(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                                {/* PURPOSE */}
+                                <Field>
+                                    <FieldLabel htmlFor="purpose">Purpose</FieldLabel>
+                                    <Input 
+                                        id="purpose" 
+                                        autoComplete="off" 
+                                        placeholder="e.g. Epson Printer"
+                                        value={formPurpose} 
+                                        onChange={(e) => setFormPurpose(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                            </FieldGroup>
+                        </FieldSet>
+
+                        <div className="flex justify-end gap-2 mt-2">
+                            <Button variant="outline" type="button" onClick={onClose} className="cursor-pointer">
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="bg-[#9a0002] text-white hover:bg-[#9a0002]/80 cursor-pointer">
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }

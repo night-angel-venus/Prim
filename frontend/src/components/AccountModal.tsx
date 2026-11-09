@@ -1,5 +1,16 @@
 import { useState, useEffect } from 'react';
 import type { Account } from '../types';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { FieldGroup, FieldSet, Field, FieldLabel } from './ui/field';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "./ui/select";
 
 interface AccountModalProps {
     isOpen: boolean;
@@ -22,7 +33,10 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
                 setFormPassword(initialData.password);
                 setFormCategory(initialData.category);
             } else {
-                setFormAccount(''); setFormUsername(''); setFormPassword(''); setFormCategory('General');
+                setFormAccount(''); 
+                setFormUsername(''); 
+                setFormPassword(''); 
+                setFormCategory('General');
             }
         }
     }, [isOpen, initialData]);
@@ -39,37 +53,91 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
         });
     };
 
+    const categories = ["General", "Network", "Accounting", "Recruitment", "CCTV", "Anydesk"];
+
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', width: '400px' }}>
-                <h3>{initialData ? 'Edit Account' : 'Add Account'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    
-                    <label>Account Name:</label>
-                    <input type="text" placeholder="e.g. Facebook Page" value={formAccount} onChange={(e) => setFormAccount(e.target.value)} required />
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <CardHeader className="text-xl font-bold">
+                    {initialData ? 'Edit Account' : 'Add New Account'}
+                </CardHeader>
 
-                    <label>Username / Email:</label>
-                    <input type="text" placeholder="e.g. admin@test.com" value={formUsername} onChange={(e) => setFormUsername(e.target.value)} required />
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <FieldSet>
+                            <FieldGroup className='flex flex-col gap-4'>
 
-                    <label>Password:</label>
-                    <input type="text" placeholder="e.g. password123" value={formPassword} onChange={(e) => setFormPassword(e.target.value)} required />
+                                <Field>
+                                    <FieldLabel>Category</FieldLabel>
+                                    <Select value={formCategory} onValueChange={(value) => setFormCategory(value || 'General')}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categories.map((cat) => (
+                                                <SelectItem key={cat} value={cat}>
+                                                    {cat}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </Field>
 
-                    <label>Category:</label>
-                    <select value={formCategory} onChange={(e) => setFormCategory(e.target.value)}>
-                        <option value="General">General</option>
-                        <option value="Network">Network</option>
-                        <option value="Accounting">Accounting</option>
-                        <option value="Recruitment">Recruitment</option>
-                        <option value="CCTV">CCTV</option>
-                        <option value="Anydesk">Anydesk</option>
-                    </select>
+                                {/* ACCOUNT NAME */}
+                                <Field>
+                                    <FieldLabel htmlFor="account">Account Name</FieldLabel>
+                                    <Input 
+                                        id="account" 
+                                        autoComplete="off" 
+                                        placeholder="e.g. Facebook Page"
+                                        value={formAccount} 
+                                        onChange={(e) => setFormAccount(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
+                                {/* USERNAME / EMAIL */}
+                                <Field>
+                                    <FieldLabel htmlFor="username">Username / Email</FieldLabel>
+                                    <Input 
+                                        id="username" 
+                                        autoComplete="off" 
+                                        placeholder="e.g. admin@test.com"
+                                        value={formUsername} 
+                                        onChange={(e) => setFormUsername(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                                {/* PASSWORD */}
+                                <Field>
+                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <Input 
+                                        id="password" 
+                                        autoComplete="off" 
+                                        placeholder="e.g. password123"
+                                        value={formPassword} 
+                                        onChange={(e) => setFormPassword(e.target.value)} 
+                                        required 
+                                    />
+                                </Field>
+
+                                
+
+                            </FieldGroup>
+                        </FieldSet>
+
+                        <div className="flex justify-end gap-2 mt-2">
+                            <Button variant="outline" type="button" onClick={onClose} className="cursor-pointer">
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="bg-[#9a0002] text-white hover:bg-[#9a0002]/80 cursor-pointer">
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }

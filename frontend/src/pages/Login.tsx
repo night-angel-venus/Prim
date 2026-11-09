@@ -2,6 +2,21 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import api from "../api";
 
+import {
+    Field,
+    FieldContent,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSeparator,
+    FieldSet,
+    FieldTitle,
+} from "../components/ui/field"
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+
 
 function Login() {
 
@@ -33,29 +48,34 @@ function Login() {
     }
 
     return (
-        <div>
-            <h1>Login</h1>
-            {error && <p>{error}</p>}
+        <div className="flex items-center justify-center py-20 bg-[#9a0002] h-screen">
+            <section className="m-auto w-100 bg-[#efe6dd] p-8 rounded-xs">
+            
+            <img src="/public/Sidebar_logo.svg" alt="" />
 
             <form onSubmit={handleLogin}>
-
-                <label htmlFor="">Username</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-
-
-                <label htmlFor="">Password</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <button type="submit">Login</button>
+                <FieldSet>
+                    <FieldGroup>
+                        <Field>
+                            <FieldLabel htmlFor="name">Username</FieldLabel>
+                            <Input type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required className="border border-gray-300"/>
+                        </Field>
+                        <Field>
+                            <FieldLabel htmlFor="password">Password</FieldLabel>
+                            <Input type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required className="border border-gray-300"/>
+                        </Field>
+                    </FieldGroup>
+                    {error && <p className="text-red-600 font-semibold">{error}</p>}
+                    <Button type="submit" className="bg-[#e5b85c] hover:bg-[#e5b85c]/80 text-[#161111] cursor-pointer font-bold">Login</Button>
+                </FieldSet>
             </form>
+            </section>
         </div>
     )
 }
