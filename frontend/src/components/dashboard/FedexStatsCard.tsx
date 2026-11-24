@@ -1,49 +1,45 @@
 import { useEffect, useState } from 'react';
-import type { FedexStats } from '../../types';
-import { getFedexStats } from '../../services/dashboardService';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import api from '../../api';
 
-export default function FedexStatsCard() {
-    const [stats, setStats] = useState<FedexStats | null>(null);
+export default function PrinterStatsCard() {
+    const [printers, setPrinters] = useState<any[]>([]);
 
     useEffect(() => {
-        getFedexStats().then(setStats).catch(console.error);
+        // Fetch data from the local backend
+        api.get('/printer/ink')
+            .then(res => setPrinters(res.data))
+            .catch(err => console.error(err));
     }, []);
 
-    if (!stats) return <p>Loading...</p>;
+
 
     return (
-        // 1. Added flex-col, justify-between, and overflow-hidden
-        <div className='bg-[#6A0DAD] text-white p-4 rounded-xs h-full flex flex-col justify-between overflow-hidden'>
-            
-            <div>
-                {/* Logo */}
-                <div className="mb-4">
-                    <img src="/fedex_logo.svg" alt="fedex logo" className='h-10' />
-                </div>
+        <div className="flex flex-col gap-2 w-full h-full">
+            {printers.map((printer) => (
+                <div key={printer.id} className="bg-[#efe6dd] p-4 rounded-xs h-full shadow-sm border">
+                    <h3 className="font-bold mb-4">{printer.name}</h3>
 
-                {/* Total Visits */}
-                <div className='flex items-baseline gap-2'>
-                    {/* 2. Made the text slightly responsive (text-6xl instead of a massive fixed size) */}
-                    <h3 className='m-0 text-7xl font-bold leading-none'>{stats.count_visits}</h3>
-                    <p className='m-0 text-lg font-bold'>Total Visits</p>
+                    {printer.data.error ? (
+                        <p className="text-[#9a0002]">{printer.data.error}</p>
+                    ) : (
+                        <div className="h-40">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    data={Object.entries(printer.data).map(([name, level]) => ({ name, level }))}
+                                    margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                                >
+                                    <XAxis dataKey="name" tick={{ fontSize: 7 }} />
+                                    <YAxis domain={[0, 100]} />
+                                    <Tooltip />
+                                    <Bar dataKey="level" barSize={30} fill="#9a0002" radius={[2, 2, 0, 0]}>
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    )}
                 </div>
-            </div>
-
-            {/* Most Recent Visit */}
-            <div className="mt-4">
-                <p className="font-bold text-md mb-2">Most Recent Visit</p>
-                
-                {/* 3. The white box containing the details */}
-                <div className="bg-white text-black rounded-xs p-3 flex flex-col gap-2">
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="font-semibold truncate pr-2">{stats.recent_visit_reason}</span>
-                        <span className="bg-[#FF6B00] text-white px-2 py-1 rounded-full text-xs font-bold whitespace-nowrap">
-                            {stats.recent_visit_date}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
+            ))}
         </div>
     );
 }

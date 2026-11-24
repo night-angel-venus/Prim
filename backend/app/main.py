@@ -9,8 +9,7 @@ from app.api import (
     phrasebank_router, purchases_router,
     contacts_router, accounts_router,
     reports_router, deadlines_router,
-    dashboard_router
-    
+    dashboard_router, printer_router
     )
 
 from slowapi.errors import RateLimitExceeded
@@ -83,3 +82,6 @@ app.include_router(deadlines_router)
 
 # ! Dashboard API
 app.include_router(dashboard_router)
+
+# ! Printer API
+app.include_router(printer_router)

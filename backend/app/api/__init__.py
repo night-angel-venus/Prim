@@ -9,3 +9,4 @@ from app.api.accounts import router as accounts_router
 from app.api.reports import router as reports_router
 from app.api.deadlines import router as deadlines_router
 from app.api.dashboard import router as dashboard_router
+from app.api.printer import router as printer_router
