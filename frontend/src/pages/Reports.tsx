@@ -7,20 +7,26 @@ import {
 } from "../components/ui/table";
 import { Button } from "../components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/input-group";
-import { Plus, SearchIcon } from "lucide-react";
+import { CalendarIcon, Plus, SearchIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
+import { Calendar } from "../components/ui/calendar";
 
 function ReportsPage() {
     const [reports, setReports] = useState<Report[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    
+
     const [reportedByFilter, setReportedByFilter] = useState('');
     const [problemFilter, setProblemFilter] = useState('');
     const [solutionFilter, setSolutionFilter] = useState('');
-    
+
+    const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
+
     const [debouncedReportedBy, setDebouncedReportedBy] = useState('');
     const [debouncedProblem, setDebouncedProblem] = useState('');
     const [debouncedSolution, setDebouncedSolution] = useState('');
+    const [debouncedDate, setDebouncedDate] = useState('');
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -29,9 +35,9 @@ function ReportsPage() {
     const loadData = async () => {
         setLoading(true);
         try {
-            const data = await getReports(debouncedReportedBy, debouncedProblem, debouncedSolution);
+            const data = await getReports(debouncedReportedBy, debouncedProblem, debouncedSolution, debouncedDate);
             setReports(data);
-            setError(''); 
+            setError('');
         } catch (err) {
             setError('Failed to fetch reports.');
         } finally {
@@ -44,11 +50,14 @@ function ReportsPage() {
             setDebouncedReportedBy(reportedByFilter);
             setDebouncedProblem(problemFilter);
             setDebouncedSolution(solutionFilter);
+
+            setDebouncedDate(dateFilter ? format(dateFilter, "yyyy-MM-dd"):'')
+
         }, 500);
         return () => clearTimeout(timer);
-    }, [reportedByFilter, problemFilter, solutionFilter]);
+    }, [reportedByFilter, problemFilter, solutionFilter, dateFilter]);
 
-    useEffect(() => { loadData(); }, [debouncedReportedBy, debouncedProblem, debouncedSolution]); 
+    useEffect(() => { loadData(); }, [debouncedReportedBy, debouncedProblem, debouncedSolution, debouncedDate]);
 
     const handleOpenAdd = () => { setEditingId(null); setEditingData(null); setIsModalOpen(true); };
     const handleOpenEdit = (report: Report) => { setEditingId(report.id); setEditingData(report); setIsModalOpen(true); };
@@ -58,7 +67,7 @@ function ReportsPage() {
             if (editingId) await updateReport(editingId, payload);
             else await createReport(payload);
             setIsModalOpen(false);
-            loadData(); 
+            loadData();
         } catch (err) { alert("Action failed."); }
     };
 
@@ -66,28 +75,57 @@ function ReportsPage() {
 
     return (
         <div>
-            <h1 className="font-bold mb-5 text-2xl">Issue Reports</h1>
-            
+            <h1 className="font-bold mb-5 text-2xl">Activity Log</h1>
+
             <div className="flex flex-col md:flex-row md:justify-between gap-4">
                 <section className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
                     <div className="w-full md:w-auto">
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button variant="outline" className="w-full md:w-[200px] justify-start bg-[#efe6dd] text-left font-normal">
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {dateFilter ? format(dateFilter, "PPP") : <span>Filter by Date</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0 bg-[#efe6dd]" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={dateFilter}
+                                    onSelect={setDateFilter}
+                                />
+                                {dateFilter && (
+                                    <div className="p-2 border-t">
+                                        <Button 
+                                            variant="ghost" 
+                                            className="w-full h-8 text-xs cursor-pointer" 
+                                            onClick={() => setDateFilter(undefined)}
+                                        >
+                                            Clear Date
+                                        </Button>
+                                    </div>
+                                )}
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                    <div className="w-full md:w-auto">
                         <InputGroup>
-                            <InputGroupInput placeholder="Search problem..." value={problemFilter} onChange={(e) => setProblemFilter(e.target.value)} />
+                            <InputGroupInput placeholder="Search problem/task..." value={problemFilter} onChange={(e) => setProblemFilter(e.target.value)} />
                             <InputGroupAddon><SearchIcon /></InputGroupAddon>
                         </InputGroup>
                     </div>
                     <div className="w-full md:w-auto">
                         <InputGroup>
-                            <InputGroupInput placeholder="Search solution..." value={solutionFilter} onChange={(e) => setSolutionFilter(e.target.value)} />
+                            <InputGroupInput placeholder="Search solution/action..." value={solutionFilter} onChange={(e) => setSolutionFilter(e.target.value)} />
                             <InputGroupAddon><SearchIcon /></InputGroupAddon>
                         </InputGroup>
                     </div>
                     <div className="w-full md:w-auto">
                         <InputGroup>
-                            <InputGroupInput placeholder="Search reported by..." value={reportedByFilter} onChange={(e) => setReportedByFilter(e.target.value)} />
+                            <InputGroupInput placeholder="Search who reported..." value={reportedByFilter} onChange={(e) => setReportedByFilter(e.target.value)} />
                             <InputGroupAddon><SearchIcon /></InputGroupAddon>
                         </InputGroup>
                     </div>
+                    
                 </section>
 
                 <section className="w-full md:w-auto">
@@ -105,9 +143,10 @@ function ReportsPage() {
                 <table className="w-full caption-bottom text-sm border-collapse min-w-[800px]">
                     <TableHeader>
                         <TableRow className="bg-[#efe6dd]/50 hover:bg-[#efe6dd]/50">
-                            <TableHead className="font-bold text-[#161111]">Problem</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Date</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Problem/Task</TableHead>
                             <TableHead className="font-bold text-[#161111]">Description</TableHead>
-                            <TableHead className="font-bold text-[#161111]">Solution</TableHead>
+                            <TableHead className="font-bold text-[#161111]">Solution/Action</TableHead>
                             <TableHead className="font-bold text-[#161111]">Reported By</TableHead>
                             <TableHead className="font-bold text-[#161111]">Actions</TableHead>
                         </TableRow>
@@ -115,7 +154,12 @@ function ReportsPage() {
                     <TableBody>
                         {reports.map((r) => (
                             <TableRow key={r.id}>
-                                <TableCell className="max-w-[150px] truncate font-medium">{r.problem}</TableCell>
+                                <TableCell className="max-w-[150px] truncate font-medium">
+                                    {new Date(r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                </TableCell>
+                                <TableCell className="whitespace-normal break-words max-w-[200px]">
+                                    {r.problem}
+                                </TableCell>
                                 <TableCell className="whitespace-normal break-words max-w-[250px]">{r.description}</TableCell>
                                 <TableCell className="whitespace-normal break-words max-w-[250px]">{r.solution}</TableCell>
                                 <TableCell>{r.reported_by}</TableCell>
@@ -128,6 +172,12 @@ function ReportsPage() {
                         ))}
                     </TableBody>
                 </table>
+
+                {reports.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            You have no activities!
+                        </div>
+                        )}
             </main>
 
             <ReportModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

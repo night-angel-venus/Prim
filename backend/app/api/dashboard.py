@@ -68,8 +68,13 @@ def get_employee_stats(db: Session = Depends(get_db)):
 @router.get("/tiktok", response_model=DashboardTiktok)
 def get_tiktok_live_stats(db: Session = Depends(get_db)):
 
+    curr_year = datetime.now().year
+
     total_lives = (
-        db.query(func.count(Tiktok.id)).filter(Tiktok.no_applicants > 0).scalar() or 0
+        db.query(func.count(Tiktok.id)).filter(
+            Tiktok.no_applicants > 0,
+            extract("year", Tiktok.live_date) == curr_year,
+            ).scalar() or 0
     )
 
     curr_month = datetime.now().month

@@ -143,9 +143,10 @@ function DeadlinesPage() {
                                     />
                                 </TableCell>
                                 <TableCell className={`max-w-[150px] truncate ${d.completed ? 'line-through text-gray-500' : ''}`}>
-                                    {d.due_date}
+                                    {new Date(d.due_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
+                                    
                                 </TableCell>
-                                <TableCell className={`max-w-[200px] truncate font-medium ${d.completed ? 'line-through text-gray-500' : ''}`}>
+                                <TableCell className={`max-w-[200px] break-words font-medium ${d.completed ? 'line-through text-gray-500' : ''}`}>
                                     {d.title}
                                 </TableCell>
                                 <TableCell>{d.beneficiary}</TableCell>
@@ -156,8 +157,16 @@ function DeadlinesPage() {
                                 </TableCell>
                             </TableRow>
                         ))}
+
+                        
                     </TableBody>
                 </table>
+
+                 {deadlines.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            You have no deadlines!
+                        </div>
+                        )}
             </main>
 
             <DeadlineModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

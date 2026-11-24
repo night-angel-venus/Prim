@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.models import Report
 from app.schemas import ReportCreate, ReportUpdate, ReportResponse 
-from sqlalchemy import func
-
+from sqlalchemy import func, cast, Date
+from datetime import date
 
 
 router = APIRouter(prefix="/reports", tags=["Report Logs"])
@@ -16,10 +16,11 @@ def get_reports(
     reported_by: Optional[str] = Query(None, description="Search who reported"),
     problem: Optional[str] = Query(None, description="Search for a keyword in PROBLEM"),
     solution: Optional[str] = Query(None, description="Search for a keyword in SOLUTION"),
+    date: Optional[date] = Query(None, description="Filter by date"),
     db:Session = Depends(get_db)
 ):
 
-    query = db.query(Report)
+    query = db.query(Report).order_by(Report.date.desc())
 
     if reported_by:
         query = query.filter(Report.reported_by.ilike(f"%{reported_by}%"))
@@ -29,6 +30,9 @@ def get_reports(
     
     if solution:
         query = query.filter(Report.solution.ilike(f"%{solution}%"))
+
+    if date:
+        query = query.filter(cast(Report.date, Date) == date)
 
     reports = query.all()
 

@@ -4,7 +4,6 @@ import { getTiktok, createTiktok, updateTiktok } from "../services/tiktokService
 import TiktokModal from "../components/TiktokModal";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import {
-    Table,
     TableBody,
     TableCell,
     TableHead,
@@ -22,7 +21,7 @@ function TiktokPage() {
 
     // Filters
     const [hostFilter, setHostFilter] = useState('');
-    const [noLiveFilter, setNoLiveFilter] = useState<string>(''); 
+    const [noLiveFilter, setNoLiveFilter] = useState<string>('');
 
     // Debounced filter
     const [debouncedHost, setDebouncedHost] = useState('');
@@ -99,16 +98,16 @@ function TiktokPage() {
             {/* Filters Section */}
             {/* Changed to flex-col on mobile, flex-row on desktop */}
             <div className="flex flex-col md:flex-row md:justify-between gap-4">
-                
+
                 {/* Tabs and Search */}
                 <section className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
-                    
+
                     {/* Tabs */}
                     <div>
                         <Tabs value={noLiveFilter} onValueChange={setNoLiveFilter}>
                             <TabsList className='bg-[#e5b85c] text-[#161111] w-full md:w-auto flex-wrap h-auto'>
                                 <span className="flex flex-row gap-1 text-xs font-bold text-center mx-2 items-center py-1">
-                                    Filters <Filter className="size-3"/>  
+                                    Filters <Filter className="size-3" />
                                 </span>
                                 <TabsTrigger value="false" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">
                                     Days with LIVE
@@ -123,8 +122,8 @@ function TiktokPage() {
                     {/* Search Bar */}
                     <div className="w-full md:w-auto">
                         <InputGroup>
-                            <InputGroupInput 
-                                placeholder="Search host..." 
+                            <InputGroupInput
+                                placeholder="Search host..."
                                 value={hostFilter}
                                 onChange={(e) => setHostFilter(e.target.value)}
                             />
@@ -140,7 +139,7 @@ function TiktokPage() {
                     <Button onClick={handleOpenAdd} className='w-full md:w-24 bg-[#e5b85c] text-[#161111] cursor-pointer hover:bg-[#e5b85c]/60'>
                         <span className="flex flex-row items-center justify-center gap-1">
                             <Plus size={16} />
-                            New Log
+                            New
                         </span>
                     </Button>
                 </section>
@@ -153,7 +152,7 @@ function TiktokPage() {
                 border border-white/60 bg-[#efe6dd]/30 backdrop-blur-md 
                 shadow-[inset_0_4px_12px_rgba(0,0,0,0.15),inset_0_2px_4px_rgba(0,0,0,0.1)]
                 h-[calc(100vh-250px)] overflow-y-auto overflow-x-auto">
-                
+
                 {/* Raw HTML table forces sticky headers and horizontal scrolling on mobile */}
                 <table className="w-full caption-bottom text-sm border-collapse min-w-[600px]">
                     <TableHeader>
@@ -166,8 +165,16 @@ function TiktokPage() {
                     </TableHeader>
                     <TableBody>
                         {tiktokLogs.map(log => (
-                            <TableRow key={log.id}>
-                                <TableCell className="max-w-[150px] truncate">{log.live_date}</TableCell>
+                            <TableRow
+                                key={log.id}
+                                className={`${log.no_applicants === 0 ? 'text-red-600 font-bold' : ''}`}
+                            >
+                                <TableCell className="max-w-[150px] truncate">
+                                    {new Date(log.live_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
+                                    
+                              
+                                    
+                                    </TableCell>
                                 <TableCell className="max-w-[200px] truncate">{log.hosts}</TableCell>
                                 <TableCell>{log.no_applicants}</TableCell>
                                 <TableCell>
@@ -181,6 +188,12 @@ function TiktokPage() {
                         ))}
                     </TableBody>
                 </table>
+
+                {tiktokLogs.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            You have no TikTok Live records!
+                        </div>
+                        )}
 
             </main>
 

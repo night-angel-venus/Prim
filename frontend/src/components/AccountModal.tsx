@@ -57,7 +57,7 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Account' : 'Add New Account'}
                 </CardHeader>
@@ -89,10 +89,9 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
                                     <Input 
                                         id="account" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Facebook Page"
                                         value={formAccount} 
                                         onChange={(e) => setFormAccount(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -102,10 +101,9 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
                                     <Input 
                                         id="username" 
                                         autoComplete="off" 
-                                        placeholder="e.g. admin@test.com"
                                         value={formUsername} 
                                         onChange={(e) => setFormUsername(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -115,10 +113,9 @@ export default function AccountModal({ isOpen, onClose, onSubmit, initialData }:
                                     <Input 
                                         id="password" 
                                         autoComplete="off" 
-                                        placeholder="e.g. password123"
                                         value={formPassword} 
                                         onChange={(e) => setFormPassword(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 

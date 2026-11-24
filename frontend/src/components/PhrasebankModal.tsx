@@ -51,7 +51,7 @@ export default function PhraseModal({ isOpen, onClose, onSubmit, initialData }: 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Phrase' : 'Add New Phrase'}
                 </CardHeader>
@@ -66,10 +66,9 @@ export default function PhraseModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <Input 
                                         id="title" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Send Resume"
                                         value={formTitle} 
                                         onChange={(e) => setFormTitle(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -77,8 +76,7 @@ export default function PhraseModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <FieldLabel htmlFor="phrase">Phrase</FieldLabel>
                                     <Textarea 
                                         id="phrase" 
-                                        placeholder="e.g. Please send your resume to..." 
-                                        className="min-h-[150px] resize-y"
+                                        className="min-h-[150px] resize-y bg-white"
                                         value={formPhrase} 
                                         onChange={(e) => setFormPhrase(e.target.value)} 
                                         required 

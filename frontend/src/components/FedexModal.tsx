@@ -71,7 +71,7 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit FedEx Visit' : 'Add FedEx Visit'}
                 </CardHeader>
@@ -111,10 +111,9 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                     <Input 
                                         id="reason" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Orientation, Training"
                                         value={formReason} 
                                         onChange={(e) => setFormReason(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -124,10 +123,10 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                     <Input 
                                         id="companions" 
                                         autoComplete="off" 
-                                        placeholder="e.g. John, Jane"
+                                        placeholder="Separate names by comma..."
                                         value={formCompanions} 
                                         onChange={(e) => setFormCompanions(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -140,7 +139,7 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                             type="time" 
                                             value={formDepOffice} 
                                             onChange={(e) => setFormDepOffice(e.target.value)} 
-                                            required 
+                                            required className='bg-white'
                                         />
                                     </Field>
 
@@ -151,7 +150,7 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                             type="time" 
                                             value={formArrFedex} 
                                             onChange={(e) => setFormArrFedex(e.target.value)} 
-                                            required 
+                                            required className='bg-white'
                                         />
                                     </Field>
 
@@ -162,7 +161,7 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                             type="time" 
                                             value={formDepFedex} 
                                             onChange={(e) => setFormDepFedex(e.target.value)} 
-                                            required 
+                                            required className='bg-white'
                                         />
                                     </Field>
 
@@ -173,7 +172,7 @@ export default function FedexModal({ isOpen, onClose, onSubmit, initialData }: F
                                             type="time" 
                                             value={formArrOffice} 
                                             onChange={(e) => setFormArrOffice(e.target.value)} 
-                                            required 
+                                            required className='bg-white'
                                         />
                                     </Field>
                                 </div>

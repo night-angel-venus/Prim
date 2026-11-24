@@ -18,7 +18,7 @@ export default function GeneralStatsCard() {
         <div className='grid grid-cols-3 gap-3 h-full min-h-[120px]'>
 
             <div className='h-35 p-4 bg-[#E5B85C] text-[#161111]'>
-                <h1 className='font-bold text-lg'>Issues Resolved</h1>
+                <h1 className='font-bold text-lg'>Activities</h1>
 
                 <p className='text-[70px] font-bold'>{stats.count_reports}</p>
             </div>

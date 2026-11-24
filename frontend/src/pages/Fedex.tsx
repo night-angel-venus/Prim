@@ -8,7 +8,6 @@ import { Input } from "../components/ui/input";
 function FedexPage() {
     const [fedexLogs, setFedexLogs] = useState<Fedex[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
 
     const [companionFilter, setCompanionFilter] = useState('');
     const [reasonFilter, setReasonFilter] = useState('');
@@ -25,9 +24,6 @@ function FedexPage() {
         try {
             const data = await getFedex(debouncedCompanion, debouncedReason);
             setFedexLogs(data);
-            setError('');
-        } catch (err) {
-            setError('Failed to fetch FedEx logs.');
         } finally {
             setLoading(false);
         }
@@ -81,13 +77,17 @@ function FedexPage() {
                 {/* LEFT SIDE: Scrollable Cards */}
                 <div className="flex-1 min-w-0 overflow-y-auto pb-4 flex flex-col gap-4 pr-2">
                     {fedexLogs.map((log) => (
-                        <div key={log.id} className="grid grid-cols-1 md:grid-cols-[200px_1fr] rounded-sm p-4 gap-4
+                        <div key={log.id} className="grid grid-cols-1 md:grid-cols-[300px_1fr] rounded-sm p-4 gap-4
                             border border-white/60 bg-[#efe6dd]/30 backdrop-blur-md 
                             shadow-[inset_0_4px_12px_rgba(0,0,0,0.15),inset_0_2px_4px_rgba(0,0,0,0.1)] shrink-0">
                             
                             <section className="flex flex-col gap-4">
                                 <div>
-                                    <h1 className="text-2xl font-bold">{log.visit_date}</h1>
+                                    <h1 className="text-2xl font-bold">
+                                        
+                                    {new Date(log.visit_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year:'numeric' })}
+                                        
+                                    </h1>
                                     <h3 className="text-sm font-semibold text-gray-700">{log.visit_reason}</h3>
                                 </div>
 
@@ -129,7 +129,7 @@ function FedexPage() {
 
                     {fedexLogs.length === 0 && (
                         <div className="flex items-center justify-center h-full text-gray-500">
-                            No FedEx logs found.
+                            You have no  FedEx Visits!
                         </div>
                     )}
                 </div>
@@ -154,7 +154,6 @@ function FedexPage() {
                                 <label className="text-[11px] font-semibold">Reason</label>
                                 <Input
                                     type="text"
-                                    placeholder="e.g. Training"
                                     value={reasonFilter}
                                     onChange={(e) => setReasonFilter(e.target.value)}
                                     className="bg-white/10 text-white border-white/20 placeholder:text-white/50 focus:bg-white focus:text-black transition-colors h-7 text-xs px-2"
@@ -165,7 +164,6 @@ function FedexPage() {
                                 <label className="text-[11px] font-semibold">Companion</label>
                                 <Input
                                     type="text"
-                                    placeholder="e.g. John"
                                     value={companionFilter}
                                     onChange={(e) => setCompanionFilter(e.target.value)}
                                     className="bg-white/10 text-white border-white/20 placeholder:text-white/50 focus:bg-white focus:text-black transition-colors h-7 text-xs px-2"
