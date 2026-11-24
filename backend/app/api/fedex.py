@@ -34,7 +34,7 @@ def get_fedex_history(
         query = query.filter(Fedex.visit_reason.like(f"%{reason}%"))
 
 
-    fedex_history = query.order_by(Fedex.visit_date.desc()).all()
+    fedex_history = query.all()
 
     if not fedex_history:
         raise HTTPException(

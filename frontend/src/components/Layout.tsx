@@ -13,12 +13,14 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from './ui/sidebar';
-import { LayoutDashboard, Users, Plane, Logs, ShoppingCart, UserRoundGroup, MessageSquare, Clock, Phone, EighthNote } from 'lucide-react';
+import { LayoutDashboard, Users, Plane, Logs, ShoppingCart, UserRoundGroup, MessageSquare, Clock, Key, Phone, EighthNote } from 'lucide-react';
 
 
 export default function Layout() {
     const navigate = useNavigate();
     const location = useLocation(); // <--- Get the current URL
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -36,12 +38,12 @@ export default function Layout() {
     const navItems = [
         { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
         { title: "Employees", url: "/employees", icon: Users },
-        { title: "Activity Log", url: "/reports", icon: Logs },
+        { title: "FedEx", url: "/fedex", icon: Plane },
         { title: "TikTok Live", url: "/tiktok", icon: EighthNote },
         { title: "Purchases", url: "/purchases", icon: ShoppingCart },
-        { title: "Deadlines", url: "/deadlines", icon: Clock },
-        { title: "FedEx", url: "/fedex", icon: Plane },
+        { title: "Report Logs", url: "/reports", icon: Logs },
         { title: "Phrasebank", url: "/phrasebank", icon: MessageSquare },
+        { title: "Deadlines", url: "/deadlines", icon: Clock },
         { title: "Accounts", url: "/accounts", icon: UserRoundGroup },
         { title: "Contacts", url: "/contacts", icon: Phone },
     ];
@@ -50,7 +52,7 @@ export default function Layout() {
         <SidebarProvider className='select-none'>
             <Sidebar>
                 <SidebarHeader>
-                    <img src="/Sidebar_logo.svg"  alt="" />
+                    <img src="/public/Sidebar_logo.svg"  alt="" />
                 </SidebarHeader>
                 
                 <SidebarContent>
@@ -78,11 +80,6 @@ export default function Layout() {
                 </SidebarContent>
 
                 <SidebarFooter>
-                    
-                    <div>
-                       
-                    </div>
-
                     <button onClick={handleLogout} className="w-full px-2 py-1 cursor-pointer text-[#161111] hover:bg-[#e5b85c]/70 bg-[#E5B85C] rounded-xs">
                         Log out
                     </button>
@@ -94,8 +91,8 @@ export default function Layout() {
                     <SidebarTrigger />
 
                     <div className='flex flex-row justify-between w-full pe-11'>
-                        <h2 className='font-bold'>BEA | BizSolv Everyday Archive</h2>
-                        <h2 className="font-bold">{currentDate}</h2>
+                        <h2 className='font-bold'>PRIM Admin Panel</h2>
+                        <h2 className="font-semibold">{currentDate}</h2>
                     </div>
                 </header>
                 <main className="bg-[#efe6dd] flex flex-1 flex-col overflow-hidden h-[calc(100vh-64px)] gap-4 py-2 px-15">

@@ -104,7 +104,7 @@ function ContactsPage() {
                             <TableRow key={c.id}>
                                 <TableCell className="max-w-[200px] truncate font-medium">{c.contact_name}</TableCell>
                                 <TableCell className="max-w-[200px] truncate">
-                                    <div className="flex items-center gap-2 break-words">
+                                    <div className="flex items-center gap-2">
                                         {c.contact_number}
                                         <Button variant="ghost" size="icon" className="h-6 w-6 cursor-pointer text-gray-500 hover:text-black" onClick={() => handleCopy(c.contact_number)}>
                                             <Copy className="h-3 w-3" />
@@ -121,12 +121,6 @@ function ContactsPage() {
                         ))}
                     </TableBody>
                 </table>
-
-                {contacts.length === 0 && (
-                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
-                            You have no contacts!
-                        </div>
-                        )}
             </main>
 
             <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

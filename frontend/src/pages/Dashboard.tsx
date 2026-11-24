@@ -4,10 +4,9 @@ import FedexStatsCard from "../components/dashboard/FedexStatsCard";
 import GeneralStatsCard from "../components/dashboard/GeneralStatsCard";
 
 function Dashboard() {
-
-  const currentMonth = new Date().toLocaleString('default', { month: 'long' });  
+  
   return (
-    <div className="flex flex-col h-full w-full gap-2 pb-2
+    <div className="flex flex-col h-full w-full gap-4 pb-2
     ">
       
       <div className="flex justify-between items-end shrink-0">
@@ -23,22 +22,17 @@ function Dashboard() {
         Row 1: TikTok (left, spans 2 cols) and FedEx (right, spans 2 rows).
         Row 2: General Stats (left, spans 2 cols).
       */}
-      <div className="flex-1 grid grid-cols-3 grid-rows-[1fr_auto_auto] gap-2 min-h-0">
+      <div className="flex-1 grid grid-cols-3 grid-rows-[1fr_auto] gap-2 min-h-0">
         
         {/* TikTok (Top Left) */}
-        <div className="col-span-2 flex flex-col gap-2.5 min-h-0">
-          <TiktokStatsCard />
-          <h1 className="text-xl font-bold flex items-center">
-          {currentMonth} Summary
-          </h1> 
+        <div className="col-span-2 min-h-0">
+          <TiktokStatsCard /> 
         </div>
 
         {/* FedEx (Right Side, spans both rows) */}
         <div className="col-span-1 row-span-2 min-h-0">
           <FedexStatsCard />
         </div>
-
-        
 
         {/* General Stats (Bottom Left) */}
         <div className="col-span-2">

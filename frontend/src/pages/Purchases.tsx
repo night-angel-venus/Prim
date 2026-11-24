@@ -94,7 +94,6 @@ function PurchasesPage() {
                                 <SelectItem value="">All Sources</SelectItem>
                                 <SelectItem value="Shopee">Shopee</SelectItem>
                                 <SelectItem value="TikTok Shop">TikTok Shop</SelectItem>
-                                <SelectItem value="Physical Store">Physical Store</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -124,14 +123,9 @@ function PurchasesPage() {
                     <TableBody>
                         {purchases.map((p) => (
                             <TableRow key={p.id}>
-                                <TableCell className="max-w-[120px] truncate">
-                                    {new Date(p.purchase_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
-                                    
-                                    
-                                    
-                                    </TableCell>
+                                <TableCell className="max-w-[120px] truncate">{p.purchase_date}</TableCell>
                                 <TableCell>{p.source}</TableCell>
-                                <TableCell className="max-w-[200px] break-words whitespace-normal">{p.item}</TableCell>
+                                <TableCell className="max-w-[200px] truncate">{p.item}</TableCell>
                                 <TableCell>₱{p.price}</TableCell>
                                 <TableCell>{p.beneficiary}</TableCell>
                                 <TableCell>
@@ -143,12 +137,6 @@ function PurchasesPage() {
                         ))}
                     </TableBody>
                 </table>
-
-                {purchases.length === 0 && (
-                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
-                            You have no purchases!
-                        </div>
-                        )}
             </main>
 
             <PurchaseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

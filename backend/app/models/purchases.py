@@ -7,7 +7,6 @@ class PurchaseSourceEnum(str, enum.Enum):
     DEFAULT = "None"
     SHOPEE = "Shopee"
     TIKTOK_SHOP = "TikTok Shop"
-    STORE = "Physical Store"
 
 class Purchases(Base):
     __tablename__ = "purchases"

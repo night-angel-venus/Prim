@@ -60,7 +60,7 @@ export interface Report {
     description: string;
     solution: string;
     reported_by: string;
-    date: string; // Dates come back as strings (e.g., "2026-11-05")
+    report_date: string; // Dates come back as strings (e.g., "2026-11-05")
 }
 
 export interface Deadline {

@@ -15,14 +15,7 @@ import Layout from './components/Layout';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('token');
-  const expiresAt = localStorage.getItem('expiresAt')
-  
-  if (!token || (expiresAt && Date.now() > parseInt(expiresAt))) {
-    
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    localStorage.removeItem('expiresAt')
-  
+  if (!token) {
     return <Navigate to='/' replace />
   }
 
