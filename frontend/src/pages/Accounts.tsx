@@ -63,6 +63,9 @@ function AccountsPage() {
                                 <TabsTrigger value="General" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">General</TabsTrigger>
                                 <TabsTrigger value="Network" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Network</TabsTrigger>
                                 <TabsTrigger value="Accounting" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Accounting</TabsTrigger>
+                                <TabsTrigger value="Recruitment" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Recruitment</TabsTrigger>
+                                <TabsTrigger value="CCTV" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">CCTV</TabsTrigger>
+                                <TabsTrigger value="Anydesk" className="data-active:bg-[#161111] data-active:hover:text-[#e5b85c] data-active:text-[#e5b85c] text-xs bg-[#e5b85c] text-[#161111] cursor-pointer">Anydesk</TabsTrigger>
                             </TabsList>
                         </Tabs>
                     </div>
@@ -111,6 +114,12 @@ function AccountsPage() {
                         ))}
                     </TableBody>
                 </table>
+
+                {accounts.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            You have no accounts!
+                        </div>
+                        )}
             </main>
 
             <AccountModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

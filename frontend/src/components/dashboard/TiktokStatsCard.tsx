@@ -21,15 +21,15 @@ export default function TiktokStatsCard() {
 
     return (
         // 1. The outer container MUST have overflow-hidden and flex-col
-        <div className='bg-[#161111] text-[#efe6dd] p-3 rounded-xs h-full flex flex-col overflow-hidden'>
+        <div className='bg-[#161111] text-[#efe6dd] p-1 rounded-xs h-auto flex flex-col overflow-hidden'>
             
             {/* 2. The grid. Removed the fixed width (w-70) and added min-w-0 */}
-            <div className='grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 h-full w-full min-h-0'>
+            <div className='grid grid-cols-1 md:grid-cols-[auto_1fr] p-3 gap-4 h-full w-full min-h-0'>
                 
                 {/* Left side text */}
-                <div className='flex flex-col gap-1 justify-center min-w-0'>
+                <div className='flex flex-col gap-1 min-w-0'>
                     <div className='flex flex-row gap-2 mb-1'>
-                        <img src="/public/tiktok_logo.svg" alt="tiktok logo" className='h-6' />
+                        <img src="/tiktok_logo.svg" alt="tiktok logo" className='h-6' />
                     </div>
                     <div className='flex flex-row items-baseline gap-2 justify-between'>
                         <h3 className='m-0 text-3xl font-bold'>{stats.count_tiktok_lives}</h3>
@@ -51,7 +51,7 @@ export default function TiktokStatsCard() {
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart
                                 data={chartData}
-                                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                                margin={{ top: 10, right: 10, left: 0, bottom: -15 }}
                             >
                                 <XAxis
                                     dataKey="month"

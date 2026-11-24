@@ -54,7 +54,7 @@ export default function TiktokModal({ isOpen, onClose, onSubmit, initialData }: 
 
     return (
         <div className='fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4'>
-            <div className='bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto'>
+            <div className='bg-[#efe6dd] p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto'>
                 <CardHeader className="text-xl font-bold mb-4 p-0">
                     {initialData ? 'Edit TikTok Live' : 'Add New TikTok Live'}
                 </CardHeader>
@@ -69,9 +69,9 @@ export default function TiktokModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <FieldLabel>Date</FieldLabel>
                                     <Popover>
                                         <PopoverTrigger>
-                                            <Button variant="outline" className="justify-start font-normal text-left">
+                                            <Button variant="outline" className="w-full bg-white justify-start font-normal text-left">
                                                 {/* Convert string to Date object for display, or show placeholder */}
-                                                {formDate ? format(new Date(formDate), "PPP") : <span>Pick a date</span>}
+                                                {formDate ? format(new Date(formDate), "PPP") : <span>Click to pick a date</span>}
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-auto p-0" align="start">
@@ -98,10 +98,10 @@ export default function TiktokModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <Input 
                                         id="hosts" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Ms. Hazel, Ms. Cheska"
+                                        placeholder="Separate names by comma..."
                                         value={formHosts} 
                                         onChange={(e) => setFormHosts(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -116,7 +116,7 @@ export default function TiktokModal({ isOpen, onClose, onSubmit, initialData }: 
                                         placeholder="0"
                                         value={formApplicants} 
                                         onChange={(e) => setFormApplicants(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
                             </FieldGroup>

@@ -18,7 +18,7 @@ export default function FedexStatsCard() {
             <div>
                 {/* Logo */}
                 <div className="mb-4">
-                    <img src="/public/fedex_logo.svg" alt="fedex logo" className='h-10' />
+                    <img src="/fedex_logo.svg" alt="fedex logo" className='h-10' />
                 </div>
 
                 {/* Total Visits */}

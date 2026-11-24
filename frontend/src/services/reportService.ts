@@ -1,11 +1,12 @@
 import api from "../api";
 import type { Report } from "../types";
 
-export const getReports = async (reportedBy?: string, problem?: string, solution?: string) => {
+export const getReports = async (reportedBy?: string, problem?: string, solution?: string, date?: string) => {
     const params = new URLSearchParams();
     if (reportedBy) params.append('reported_by', reportedBy);
     if (problem) params.append('problem', problem);
     if (solution) params.append('solution', solution);
+    if (date) params.append('date', date)
     
     const url = `/reports/logs?${params.toString()}`;
     const response = await api.get<Report[]>(url);

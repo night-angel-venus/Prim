@@ -44,7 +44,7 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Contact' : 'Add New Contact'}
                 </CardHeader>
@@ -60,10 +60,9 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
                                     <Input 
                                         id="name" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Mr. Contact"
                                         value={formName} 
                                         onChange={(e) => setFormName(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -74,10 +73,10 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
                                         id="number" 
                                         autoComplete="off" 
                                         type="tel"
-                                        placeholder="e.g. 09123456789"
+                                        placeholder="09XX-XXX-XXXX"
                                         value={formNumber} 
                                         onChange={(e) => setFormNumber(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -87,10 +86,9 @@ export default function ContactModal({ isOpen, onClose, onSubmit, initialData }:
                                     <Input 
                                         id="purpose" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Epson Printer"
                                         value={formPurpose} 
                                         onChange={(e) => setFormPurpose(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 

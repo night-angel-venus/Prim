@@ -52,7 +52,7 @@ export default function DeadlineModal({ isOpen, onClose, onSubmit, initialData }
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Deadline' : 'Add New Deadline'}
                 </CardHeader>
@@ -92,10 +92,10 @@ export default function DeadlineModal({ isOpen, onClose, onSubmit, initialData }
                                     <Input 
                                         id="title" 
                                         autoComplete="off" 
-                                        placeholder=""
+                                    
                                         value={formTitle} 
                                         onChange={(e) => setFormTitle(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -105,10 +105,10 @@ export default function DeadlineModal({ isOpen, onClose, onSubmit, initialData }
                                     <Input 
                                         id="beneficiary" 
                                         autoComplete="off" 
-                                        placeholder=""
+                        
                                         value={formBeneficiary} 
                                         onChange={(e) => setFormBeneficiary(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 

@@ -64,7 +64,7 @@ export default function PurchaseModal({ isOpen, onClose, onSubmit, initialData }
 
     return (
         <div className='fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4'>
-            <Card className='bg-white w-full max-w-md max-h-[90vh] overflow-y-auto'>
+            <Card className='bg-[#efe6dd] w-full max-w-md max-h-[90vh] overflow-y-auto'>
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Purchase' : 'Add New Purchase'}
                 </CardHeader>
@@ -101,13 +101,14 @@ export default function PurchaseModal({ isOpen, onClose, onSubmit, initialData }
                                 {/* SOURCE SELECT */}
                                 <Field>
                                     <FieldLabel>Source</FieldLabel>
-                                    <Select value={formSource} onValueChange={(value) => setFormSource(value || 'Shopee')}>
+                                    <Select value={formSource} onValueChange={(value) => setFormSource(value || 'Shopee')} >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select Source" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="Shopee">Shopee</SelectItem>
                                             <SelectItem value="TikTok Shop">TikTok Shop</SelectItem>
+                                            <SelectItem value="Physical Store">Physical Store</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </Field>
@@ -118,10 +119,9 @@ export default function PurchaseModal({ isOpen, onClose, onSubmit, initialData }
                                     <Input 
                                         id="item" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Epson 003 Ink"
                                         value={formItem} 
                                         onChange={(e) => setFormItem(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -133,10 +133,10 @@ export default function PurchaseModal({ isOpen, onClose, onSubmit, initialData }
                                         type="number" 
                                         step="0.01"
                                         min="0"
-                                        placeholder="0.00"
+                                        placeholder="Base Price (w/o Shipping Fee)"
                                         value={formPrice} 
                                         onChange={(e) => setFormPrice(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -146,10 +146,9 @@ export default function PurchaseModal({ isOpen, onClose, onSubmit, initialData }
                                     <Input 
                                         id="beneficiary" 
                                         autoComplete="off" 
-                                        placeholder="e.g. Accounting Printer"
                                         value={formBeneficiary} 
                                         onChange={(e) => setFormBeneficiary(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 

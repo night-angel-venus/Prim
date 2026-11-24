@@ -4,15 +4,9 @@ import api from "../api";
 
 import {
     Field,
-    FieldContent,
-    FieldDescription,
-    FieldError,
     FieldGroup,
     FieldLabel,
-    FieldLegend,
-    FieldSeparator,
     FieldSet,
-    FieldTitle,
 } from "../components/ui/field"
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
@@ -41,6 +35,9 @@ function Login() {
             localStorage.setItem('token', response.data.access_token);
             localStorage.setItem('user', JSON.stringify((response.data.user)));
 
+            const expiresAt = Date.now() + 10 * 60 * 60 * 1000;
+            localStorage.setItem('expiresAt', expiresAt.toString());
+
             navigate('/dashboard')
         } catch (error) {
             setError('Invalid username or password');
@@ -51,7 +48,10 @@ function Login() {
         <div className="flex items-center justify-center py-20 bg-[#9a0002] h-screen">
             <section className="m-auto w-100 bg-[#efe6dd] p-8 rounded-xs">
             
-            <img src="/public/Sidebar_logo.svg" alt="" />
+            {/* <img src="/Sidebar_logo.svg" /> */}
+
+            <h1 className="w-full text-center text-4xl font-bold">BEA</h1>
+            <h3 className="text-lg w-full text-center mb-5 italic">BizSolv Everyday Archive</h3>
 
             <form onSubmit={handleLogin}>
                 <FieldSet>

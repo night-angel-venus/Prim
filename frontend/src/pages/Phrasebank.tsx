@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Phrase } from "../types";
-import { getPhrases, createPhrase, updatePhrase, deletePhrase } from "../services/phrasebankService";
+import { getPhrases, createPhrase, updatePhrase } from "../services/phrasebankService";
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table";
 import { Button } from "../components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/input-group";
@@ -47,10 +47,7 @@ function PhrasebankPage() {
         } catch (err) { alert("Action failed."); }
     };
 
-    const handleDelete = async (id: number) => {
-        if (!window.confirm("Delete this phrase?")) return;
-        try { await deletePhrase(id); loadData(); } catch (err) { alert("Failed to delete."); }
-    };
+    
 
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -108,6 +105,12 @@ function PhrasebankPage() {
                         ))}
                     </TableBody>
                 </table>
+
+                {phrases.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            You have no phrases!
+                        </div>
+                        )}
             </main>
 
             <PhraseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

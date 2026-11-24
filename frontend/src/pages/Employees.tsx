@@ -131,6 +131,12 @@ function Employees() {
                         ))}
                     </TableBody>
                 </table>
+
+                {employees.length === 0 && (
+                        <div className="flex items-center justify-center h-full w-full m-auto text-gray-500">
+                            There are no employees!
+                        </div>
+                        )}
             </main>
 
             <EmployeeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} initialData={editingData} />

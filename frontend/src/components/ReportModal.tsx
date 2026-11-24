@@ -46,7 +46,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-            <Card className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] w-full max-w-lg max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold">
                     {initialData ? 'Edit Report' : 'Add New Report'}
                 </CardHeader>
@@ -57,14 +57,14 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
                             <FieldGroup className='flex flex-col gap-4'>
                                 
                                 <Field>
-                                    <FieldLabel htmlFor="problem">Problem</FieldLabel>
+                                    <FieldLabel htmlFor="problem">Problem/Task</FieldLabel>
                                     <Input 
                                         id="problem" 
                                         autoComplete="off" 
                                         placeholder=""
                                         value={formProblem} 
                                         onChange={(e) => setFormProblem(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 
@@ -72,8 +72,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <FieldLabel htmlFor="description">Description</FieldLabel>
                                     <Textarea 
                                         id="description" 
-                                        placeholder="" 
-                                        className="min-h-25 resize-y"
+                                        className="min-h-25 resize-y bg-white"
                                         value={formDescription} 
                                         onChange={(e) => setFormDescription(e.target.value)} 
                                         required 
@@ -81,11 +80,10 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
                                 </Field>
 
                                 <Field>
-                                    <FieldLabel htmlFor="solution">Solution</FieldLabel>
+                                    <FieldLabel htmlFor="solution">Solution/Action</FieldLabel>
                                     <Textarea 
                                         id="solution" 
-                                        placeholder="" 
-                                        className="min-h-25 resize-y"
+                                        className="min-h-25 resize-y bg-white"
                                         value={formSolution} 
                                         onChange={(e) => setFormSolution(e.target.value)} 
                                         required 
@@ -97,10 +95,9 @@ export default function ReportModal({ isOpen, onClose, onSubmit, initialData }: 
                                     <Input 
                                         id="reportedBy" 
                                         autoComplete="off" 
-                                        placeholder=""
                                         value={formReportedBy} 
                                         onChange={(e) => setFormReportedBy(e.target.value)} 
-                                        required 
+                                        required className='bg-white'
                                     />
                                 </Field>
 

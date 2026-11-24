@@ -3,7 +3,6 @@ import {
     Field,
     FieldGroup,
     FieldLabel,
-    FieldLegend,
     FieldSet,
 } from "../components/ui/field";
 import { Input } from './ui/input';
@@ -17,12 +16,8 @@ import {
 
 import {
     Card,
-    CardAction,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
-    CardTitle,
 } from "../components/ui/card"
 import { Button } from './ui/button';
 
@@ -73,7 +68,7 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
 
     return (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <Card className="bg-white p-6 rounded-lg w-100 max-h-[90vh] overflow-y-auto">
+            <Card className="bg-[#efe6dd] p-6 rounded-lg w-100 max-h-[90vh] overflow-y-auto">
                 <CardHeader className="text-xl font-bold mb-4">{initialData ? 'Edit Employee' : 'Add New Employee'}</CardHeader>
 
                 <CardContent>
@@ -84,8 +79,8 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
 
                                 <Field>
                                     <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                                    <Input id="name" autoComplete="off" placeholder="Employee Name"
-                                        value={formName} onChange={(e) => setFormName(e.target.value)} required
+                                    <Input id="name" autoComplete="off"
+                                        value={formName} onChange={(e) => setFormName(e.target.value)} required className='bg-white'
                                     />
                                 </Field>
 
@@ -95,8 +90,8 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
 
                                 <Field>
                                     <FieldLabel htmlFor="email">Email</FieldLabel>
-                                    <Input id="email" autoComplete="off" type="email" placeholder="Email"
-                                        value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required
+                                    <Input id="email" autoComplete="off" type="email" placeholder="name@bizsolvasia.com"
+                                        value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required className='bg-white'
                                     />
                                 </Field>
 
@@ -104,8 +99,8 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
 
                                     <Field>
                                         <FieldLabel htmlFor="contact">Contact No.</FieldLabel>
-                                        <Input id="contact" autoComplete="off" placeholder="Contact Number"
-                                            value={formContact} onChange={(e) => setFormContact(e.target.value)} required
+                                        <Input id="contact" autoComplete="off" placeholder="09XX-XXX-XXXX"
+                                            value={formContact} onChange={(e) => setFormContact(e.target.value)} required className='bg-white'
                                         />
                                     </Field>
 
@@ -130,7 +125,7 @@ export default function EmployeeModal({ isOpen, onClose, onSubmit, initialData }
                                     <FieldLabel htmlFor="password">Password</FieldLabel>
                                     <Input id="password" autoComplete="new-password" type="password"
                                         placeholder={initialData ? "New Password (leave blank to keep)" : "Password"}
-                                        value={formPassword} onChange={(e) => setFormPassword(e.target.value)} required={!initialData}
+                                        value={formPassword} onChange={(e) => setFormPassword(e.target.value)} required={!initialData} className='bg-white'
                                     />
                                 </Field>
 
